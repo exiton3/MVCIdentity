@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Domain.Repositories
 {
-    public interface IExternalLoginRepository : IRepository<ExternalLogin>
+    public interface IExternalLoginRepository : IRepositoryAsync<ExternalLogin>
     {
         ExternalLogin GetByProviderAndKey(string loginProvider, string providerKey);
         Task<ExternalLogin> GetByProviderAndKeyAsync(string loginProvider, string providerKey);

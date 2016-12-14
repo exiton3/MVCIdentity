@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Domain.Repositories
 {
-    public interface IRoleRepository : IRepository<Role>
+    public interface IRoleRepository : IRepositoryAsync<Role>
     {
         Role FindByName(string roleName);
         Task<Role> FindByNameAsync(string roleName);
