@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc5IdentityExample.Data.Dapper", "Mvc5IdentityExample.Data.Dapper.csproj", "{14F26CC2-5F60-4405-BFC3-3EA6C16B2DFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14F26CC2-5F60-4405-BFC3-3EA6C16B2DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F26CC2-5F60-4405-BFC3-3EA6C16B2DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F26CC2-5F60-4405-BFC3-3EA6C16B2DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F26CC2-5F60-4405-BFC3-3EA6C16B2DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
