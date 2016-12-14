@@ -3,14 +3,16 @@ using Mvc5IdentityExample.Domain.Repositories;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Mvc5IdentityExample.Domain;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
     internal class RoleRepository : RepositoryAsync<Role>, IRoleRepository
     {
-        internal RoleRepository(ApplicationDbContext context)
-            : base(context)
+       
+        public RoleRepository(IUnitOfWork unitOfWork): base(unitOfWork)
         {
+            
         }
 
         public Role FindByName(string roleName)

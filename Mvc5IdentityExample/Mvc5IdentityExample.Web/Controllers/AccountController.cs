@@ -94,7 +94,7 @@ namespace Mvc5IdentityExample.Web.Controllers
         public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
         {
             ManageMessageId? message = null;
-            IdentityResult result = await _userManager.RemoveLoginAsync(getGuid(User.Identity.GetUserId()), new UserLoginInfo(loginProvider, providerKey));
+            IdentityResult result = await _userManager.RemoveLoginAsync(GetGuid(User.Identity.GetUserId()), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
                 message = ManageMessageId.RemoveLoginSuccess;
@@ -134,7 +134,7 @@ namespace Mvc5IdentityExample.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await _userManager.ChangePasswordAsync(getGuid(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
+                    IdentityResult result = await _userManager.ChangePasswordAsync(GetGuid(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
@@ -156,7 +156,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await _userManager.AddPasswordAsync(getGuid(User.Identity.GetUserId()), model.NewPassword);
+                    IdentityResult result = await _userManager.AddPasswordAsync(GetGuid(User.Identity.GetUserId()), model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
@@ -229,7 +229,7 @@ namespace Mvc5IdentityExample.Web.Controllers
             {
                 return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
             }
-            var result = await _userManager.AddLoginAsync(getGuid(User.Identity.GetUserId()), loginInfo.Login);
+            var result = await _userManager.AddLoginAsync(GetGuid(User.Identity.GetUserId()), loginInfo.Login);
             if (result.Succeeded)
             {
                 return RedirectToAction("Manage");
@@ -296,7 +296,7 @@ namespace Mvc5IdentityExample.Web.Controllers
         [ChildActionOnly]
         public ActionResult RemoveAccountList()
         {
-            var linkedAccounts = _userManager.GetLogins(getGuid(User.Identity.GetUserId()));
+            var linkedAccounts = _userManager.GetLogins(GetGuid(User.Identity.GetUserId()));
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
@@ -339,7 +339,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 
         private bool HasPassword()
         {
-            var user = _userManager.FindById(getGuid(User.Identity.GetUserId()));
+            var user = _userManager.FindById(GetGuid(User.Identity.GetUserId()));
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -395,7 +395,7 @@ namespace Mvc5IdentityExample.Web.Controllers
             }
         }
 
-        private Guid getGuid(string value)
+        private Guid GetGuid(string value)
         {
             var result = default(Guid);
             Guid.TryParse(value, out result);

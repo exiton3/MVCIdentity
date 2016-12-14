@@ -5,17 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Entities = Mvc5IdentityExample.Domain.Entities;
+﻿using Mvc5IdentityExample.Domain.Repositories;
+﻿using Entities = Mvc5IdentityExample.Domain.Entities;
 
 namespace Mvc5IdentityExample.Web.Identity
 {
-    public class UserStore : IUserLoginStore<IdentityUser, Guid>, IUserClaimStore<IdentityUser, Guid>, IUserRoleStore<IdentityUser, Guid>, IUserPasswordStore<IdentityUser, Guid>, IUserSecurityStampStore<IdentityUser, Guid>, IUserStore<IdentityUser, Guid>, IDisposable
+    public class UserStore : IUserLoginStore<IdentityUser, Guid>, IUserClaimStore<IdentityUser, Guid>, IUserRoleStore<IdentityUser, Guid>, IUserPasswordStore<IdentityUser, Guid>, IUserSecurityStampStore<IdentityUser, Guid>, IUserStore<IdentityUser, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public UserStore(IUnitOfWork unitOfWork)
+        private readonly IUserRepository _userRepository;
+        public UserStore(IUnitOfWork unitOfWork, IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
         }
 
         #region IUserStore<IdentityUser, Guid> Members
@@ -24,9 +26,9 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var u = getUser(user);
+            var u = GetUser(user);
 
-            _unitOfWork.UserRepository.Add(u);
+            _userRepository.Add(u);
             return _unitOfWork.SaveChangesAsync();
         }
 
@@ -35,22 +37,22 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var u = getUser(user);
+            var u = GetUser(user);
 
-            _unitOfWork.UserRepository.Remove(u);
+            _userRepository.Remove(u);
             return _unitOfWork.SaveChangesAsync();
         }
 
         public Task<IdentityUser> FindByIdAsync(Guid userId)
         {
-            var user = _unitOfWork.UserRepository.FindById(userId);
-            return Task.FromResult<IdentityUser>(getIdentityUser(user));
+            var user = _userRepository.FindById(userId);
+            return Task.FromResult<IdentityUser>(GetIdentityUser(user));
         }
 
         public Task<IdentityUser> FindByNameAsync(string userName)
         {
-            var user = _unitOfWork.UserRepository.FindByUserName(userName);
-            return Task.FromResult<IdentityUser>(getIdentityUser(user));
+            var user = _userRepository.FindByUserName(userName);
+            return Task.FromResult<IdentityUser>(GetIdentityUser(user));
         }
 
         public Task UpdateAsync(IdentityUser user)
@@ -58,13 +60,13 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentException("user");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
-            populateUser(u, user);
+            PopulateUser(u, user);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
@@ -84,7 +86,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (claim == null)
                 throw new ArgumentNullException("claim");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -96,7 +98,7 @@ namespace Mvc5IdentityExample.Web.Identity
             };
             u.Claims.Add(c);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
 
@@ -105,7 +107,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -119,14 +121,14 @@ namespace Mvc5IdentityExample.Web.Identity
             if (claim == null)
                 throw new ArgumentNullException("claim");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var c = u.Claims.FirstOrDefault(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
             u.Claims.Remove(c);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
@@ -139,7 +141,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (login == null)
                 throw new ArgumentNullException("login");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -151,7 +153,7 @@ namespace Mvc5IdentityExample.Web.Identity
             };
             u.Logins.Add(l);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
 
@@ -164,7 +166,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var l = _unitOfWork.ExternalLoginRepository.GetByProviderAndKey(login.LoginProvider, login.ProviderKey);
             if (l != null)
-                identityUser = getIdentityUser(l.User);
+                identityUser = GetIdentityUser(l.User);
 
             return Task.FromResult<IdentityUser>(identityUser);
         }
@@ -174,7 +176,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -188,14 +190,14 @@ namespace Mvc5IdentityExample.Web.Identity
             if (login == null)
                 throw new ArgumentNullException("login");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var l = u.Logins.FirstOrDefault(x => x.LoginProvider == login.LoginProvider && x.ProviderKey == login.ProviderKey);
             u.Logins.Remove(l);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
@@ -208,7 +210,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentException("Argument cannot be null, empty, or whitespace: roleName.");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
             var r = _unitOfWork.RoleRepository.FindByName(roleName);
@@ -216,7 +218,7 @@ namespace Mvc5IdentityExample.Web.Identity
                 throw new ArgumentException("roleName does not correspond to a Role entity.", "roleName");
 
             u.Roles.Add(r);
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
 
             return _unitOfWork.SaveChangesAsync();
         }
@@ -226,7 +228,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -240,7 +242,7 @@ namespace Mvc5IdentityExample.Web.Identity
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentException("Argument cannot be null, empty, or whitespace: role.");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
@@ -254,14 +256,14 @@ namespace Mvc5IdentityExample.Web.Identity
             if (string.IsNullOrWhiteSpace(roleName))
                 throw new ArgumentException("Argument cannot be null, empty, or whitespace: role.");
 
-            var u = _unitOfWork.UserRepository.FindById(user.Id);
+            var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var r = u.Roles.FirstOrDefault(x => x.Name == roleName);
             u.Roles.Remove(r);
 
-            _unitOfWork.UserRepository.Update(u);
+            _userRepository.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
@@ -304,18 +306,18 @@ namespace Mvc5IdentityExample.Web.Identity
         #endregion
 
         #region Private Methods
-        private Entities.User getUser(IdentityUser identityUser)
+        private Entities.User GetUser(IdentityUser identityUser)
         {
             if (identityUser == null)
                 return null;
 
             var user = new Entities.User();
-            populateUser(user, identityUser);
+            PopulateUser(user, identityUser);
 
             return user;
         }
 
-        private void populateUser(Entities.User user, IdentityUser identityUser)
+        private void PopulateUser(Entities.User user, IdentityUser identityUser)
         {
             user.UserId = identityUser.Id;
             user.UserName = identityUser.UserName;
@@ -323,18 +325,18 @@ namespace Mvc5IdentityExample.Web.Identity
             user.SecurityStamp = identityUser.SecurityStamp;
         }
 
-        private IdentityUser getIdentityUser(Entities.User user)
+        private IdentityUser GetIdentityUser(Entities.User user)
         {
             if (user == null)
                 return null;
 
             var identityUser = new IdentityUser();
-            populateIdentityUser(identityUser, user);
+            PopulateIdentityUser(identityUser, user);
 
             return identityUser;
         }
 
-        private void populateIdentityUser(IdentityUser identityUser, Entities.User user)
+        private void PopulateIdentityUser(IdentityUser identityUser, Entities.User user)
         {
             identityUser.Id = user.UserId;
             identityUser.UserName = user.UserName;

@@ -4,12 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Mvc5IdentityExample.Domain;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
     internal class RepositoryAsync<TEntity> : Repository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class
     {
-        internal RepositoryAsync(ApplicationDbContext context)
+        internal RepositoryAsync(IUnitOfWork context)
         {
             _context = context;
         }

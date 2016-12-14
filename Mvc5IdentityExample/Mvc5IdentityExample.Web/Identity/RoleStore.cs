@@ -4,59 +4,61 @@ using Mvc5IdentityExample.Domain.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Mvc5IdentityExample.Domain.Repositories;
 
 namespace Mvc5IdentityExample.Web.Identity
 {
-    public class RoleStore : IRoleStore<IdentityRole, Guid>, IQueryableRoleStore<IdentityRole, Guid>, IDisposable
+    public class RoleStore : IRoleStore<IdentityRole, Guid>, IQueryableRoleStore<IdentityRole, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public RoleStore(IUnitOfWork unitOfWork)
+        private readonly IRoleRepository _roleRepository;
+        public RoleStore(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
         {
             _unitOfWork = unitOfWork;
+            _roleRepository = roleRepository;
         }
 
         #region IRoleStore<IdentityRole, Guid> Members
-        public System.Threading.Tasks.Task CreateAsync(IdentityRole role)
+        public Task CreateAsync(IdentityRole role)
         {
             if (role == null)
                 throw new ArgumentNullException("role");
 
-            var r = getRole(role);
+            var r = GetRole(role);
 
-            _unitOfWork.RoleRepository.Add(r);
+            _roleRepository.Add(r);
             return _unitOfWork.SaveChangesAsync();
         }
 
-        public System.Threading.Tasks.Task DeleteAsync(IdentityRole role)
+        public Task DeleteAsync(IdentityRole role)
         {
             if (role == null)
                 throw new ArgumentNullException("role");
 
-            var r = getRole(role);
+            var r = GetRole(role);
 
-            _unitOfWork.RoleRepository.Remove(r);
+            _roleRepository.Remove(r);
             return _unitOfWork.SaveChangesAsync();
         }
 
-        public System.Threading.Tasks.Task<IdentityRole> FindByIdAsync(Guid roleId)
+        public Task<IdentityRole> FindByIdAsync(Guid roleId)
         {
-            var role = _unitOfWork.RoleRepository.FindById(roleId);
-            return Task.FromResult<IdentityRole>(getIdentityRole(role));
+            var role = _roleRepository.FindById(roleId);
+            return Task.FromResult<IdentityRole>(GetIdentityRole(role));
         }
 
-        public System.Threading.Tasks.Task<IdentityRole> FindByNameAsync(string roleName)
+        public Task<IdentityRole> FindByNameAsync(string roleName)
         {
-            var role = _unitOfWork.RoleRepository.FindByName(roleName);
-            return Task.FromResult<IdentityRole>(getIdentityRole(role));
+            var role = _roleRepository.FindByName(roleName);
+            return Task.FromResult<IdentityRole>(GetIdentityRole(role));
         }
 
-        public System.Threading.Tasks.Task UpdateAsync(IdentityRole role)
+        public Task UpdateAsync(IdentityRole role)
         {
             if (role == null)
                 throw new ArgumentNullException("role");
-            var r = getRole(role);
-            _unitOfWork.RoleRepository.Update(r);
+            var r = GetRole(role);
+            _roleRepository.Update(r);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
@@ -73,16 +75,16 @@ namespace Mvc5IdentityExample.Web.Identity
         {
             get
             {
-                return _unitOfWork.RoleRepository
+                return _roleRepository
                     .GetAll()
-                    .Select(x => getIdentityRole(x))
+                    .Select(x => GetIdentityRole(x))
                     .AsQueryable();
             }
         }
         #endregion
 
         #region Private Methods
-        private Role getRole(IdentityRole identityRole)
+        private Role GetRole(IdentityRole identityRole)
         {
             if (identityRole == null)
                 return null;
@@ -93,7 +95,7 @@ namespace Mvc5IdentityExample.Web.Identity
             };
         }
 
-        private IdentityRole getIdentityRole(Role role)
+        private IdentityRole GetIdentityRole(Role role)
         {
             if (role == null)
                 return null;
