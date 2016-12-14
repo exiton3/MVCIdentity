@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class RoleRepository : Repository<Role>, IRoleRepository
+    internal class RoleRepository : RepositoryAsync<Role>, IRoleRepository
     {
         internal RoleRepository(ApplicationDbContext context)
             : base(context)

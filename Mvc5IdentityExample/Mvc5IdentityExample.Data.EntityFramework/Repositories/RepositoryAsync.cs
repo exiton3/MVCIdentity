@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    internal class RepositoryAsync<TEntity> : IRepositoryAsync<TEntity> where TEntity : class
     {
         private ApplicationDbContext _context;
         private DbSet<TEntity> _set;
 
-        internal Repository(ApplicationDbContext context)
+        internal RepositoryAsync(ApplicationDbContext context)
         {
             _context = context;
         }

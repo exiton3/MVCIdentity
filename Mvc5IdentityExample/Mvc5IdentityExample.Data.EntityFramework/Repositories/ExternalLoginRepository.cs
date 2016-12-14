@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class ExternalLoginRepository : Repository<ExternalLogin>, IExternalLoginRepository
+    internal class ExternalLoginRepository : RepositoryAsync<ExternalLogin>, IExternalLoginRepository
     {
         internal ExternalLoginRepository(ApplicationDbContext context)
             : base(context)
