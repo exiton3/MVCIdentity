@@ -4,7 +4,7 @@ namespace Mvc5IdentityExample.Domain.Entities
 {
     public class ExternalLogin
     {
-        private User _user;
+        private UserN _userN;
 
         #region Scalar Properties
         public virtual string LoginProvider { get; set; }
@@ -13,12 +13,12 @@ namespace Mvc5IdentityExample.Domain.Entities
         #endregion
 
         #region Navigation Properties
-        public virtual User User
+        public virtual UserN UserN
         {
-            get { return _user; }
+            get { return _userN; }
             set
             {
-                _user = value;
+                _userN = value;
                 UserId = value.UserId;
             }
         }

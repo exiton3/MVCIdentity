@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Mvc5IdentityExample.Domain.Entities
 {
-    public class User
+    public class UserN
     {
         #region Fields
         private ICollection<Claim> _claims;

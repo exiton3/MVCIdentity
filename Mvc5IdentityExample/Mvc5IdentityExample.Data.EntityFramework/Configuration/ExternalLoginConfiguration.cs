@@ -28,7 +28,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Configuration
                 .HasColumnType("uniqueidentifier")
                 .IsRequired();
 
-            HasRequired(x => x.User)
+            HasRequired(x => x.UserN)
                 .WithMany(x => x.Logins)
                 .HasForeignKey(x => x.UserId);
         }

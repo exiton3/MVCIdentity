@@ -3,11 +3,11 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Configuration
 {
-    internal class UserConfiguration : EntityTypeConfiguration<User>
+    internal class UserConfiguration : EntityTypeConfiguration<UserN>
     {
         internal UserConfiguration()
         {
-            ToTable("User");
+            ToTable("UserN");
 
             HasKey(x => x.UserId)
                 .Property(x => x.UserId)

@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Domain.Repositories
 {
-    public interface IUserRepository : IRepositoryAsync<User>
+    public interface IUserRepository : IRepositoryAsync<UserN>
     {
-        User FindByUserName(string username);
-        Task<User> FindByUserNameAsync(string username);
-        Task<User> FindByUserNameAsync(CancellationToken cancellationToken, string username);
+        UserN FindByUserName(string username);
+        Task<UserN> FindByUserNameAsync(string username);
+        Task<UserN> FindByUserNameAsync(CancellationToken cancellationToken, string username);
     }
 }

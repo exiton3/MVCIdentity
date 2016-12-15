@@ -42,7 +42,7 @@
     <Compile Include="Entities\Claim.cs" />
     <Compile Include="Entities\ExternalLogin.cs" />
     <Compile Include="Entities\Role.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserN.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IExternalLoginRepository.cs" />
