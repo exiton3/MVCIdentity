@@ -16,7 +16,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework
 
         #endregion
 
-        internal ApplicationDbContext Context { get; }
+        internal ApplicationDbContext Context { get; set; }
 
 
         public int SaveChanges()
