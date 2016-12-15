@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class UserRepository : RepositoryAsync<UserN>, IUserRepository
+    internal class UserNRepository : RepositoryAsync<UserN>, IUserNRepository
     {
-        internal UserRepository(UnitOfWork unitOfWork)
+        internal UserNRepository(UnitOfWork unitOfWork)
             : base(unitOfWork)
         {
         }

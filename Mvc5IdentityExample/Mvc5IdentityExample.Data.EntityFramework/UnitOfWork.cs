@@ -40,7 +40,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework
         {
             _externalLoginRepository = null;
             _roleRepository = null;
-            _userRepository = null;
+            _userNRepository = null;
             Context.Dispose();
         }
 
@@ -50,7 +50,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework
 
         private IExternalLoginRepository _externalLoginRepository;
         private IRoleRepository _roleRepository;
-        private IUserRepository _userRepository;
+        private IUserNRepository _userNRepository;
 
         #endregion
     }

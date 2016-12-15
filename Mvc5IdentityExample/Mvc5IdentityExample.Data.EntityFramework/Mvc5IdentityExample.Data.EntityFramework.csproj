@@ -106,7 +106,7 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAsync.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\UserNRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
