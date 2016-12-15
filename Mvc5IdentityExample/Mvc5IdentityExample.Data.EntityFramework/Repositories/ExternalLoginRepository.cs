@@ -9,8 +9,8 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
     internal class ExternalLoginRepository : RepositoryAsync<ExternalLogin>, IExternalLoginRepository
     {
-        internal ExternalLoginRepository(ApplicationDbContext context)
-            : base(context)
+        internal ExternalLoginRepository(UnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
         }
 

@@ -10,7 +10,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
     internal class RoleRepository : RepositoryAsync<Role>, IRoleRepository
     {
        
-        public RoleRepository(IUnitOfWork unitOfWork): base(unitOfWork)
+        public RoleRepository(UnitOfWork unitOfWork): base(unitOfWork)
         {
             
         }

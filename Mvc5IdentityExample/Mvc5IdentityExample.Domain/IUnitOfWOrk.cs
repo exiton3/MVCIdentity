@@ -7,11 +7,6 @@ namespace Mvc5IdentityExample.Domain
 {
     public interface IUnitOfWork : IDisposable
     {
-        #region Properties
-        IExternalLoginRepository ExternalLoginRepository { get; }
-        IRoleRepository RoleRepository { get; }
-        IUserRepository UserRepository { get; }
-        #endregion
 
         #region Methods
         int SaveChanges();

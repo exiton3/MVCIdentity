@@ -8,8 +8,8 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
     internal class UserRepository : RepositoryAsync<User>, IUserRepository
     {
-        internal UserRepository(ApplicationDbContext context)
-            : base(context)
+        internal UserRepository(UnitOfWork unitOfWork)
+            : base(unitOfWork)
         {
         }
 

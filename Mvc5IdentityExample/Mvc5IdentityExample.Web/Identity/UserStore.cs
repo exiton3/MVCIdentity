@@ -14,10 +14,15 @@ namespace Mvc5IdentityExample.Web.Identity
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
-        public UserStore(IUnitOfWork unitOfWork, IUserRepository userRepository)
+        private readonly IRoleRepository _roleRepository;
+        private readonly IExternalLoginRepository _externalLoginRepository;
+
+        public UserStore(IUnitOfWork unitOfWork, IUserRepository userRepository,IRoleRepository roleRepository, IExternalLoginRepository externalLoginRepository)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
+            _externalLoginRepository = externalLoginRepository;
         }
 
         #region IUserStore<IdentityUser, Guid> Members
@@ -164,7 +169,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var identityUser = default(IdentityUser);
 
-            var l = _unitOfWork.ExternalLoginRepository.GetByProviderAndKey(login.LoginProvider, login.ProviderKey);
+            var l = _externalLoginRepository.GetByProviderAndKey(login.LoginProvider, login.ProviderKey);
             if (l != null)
                 identityUser = GetIdentityUser(l.User);
 
@@ -213,7 +218,7 @@ namespace Mvc5IdentityExample.Web.Identity
             var u = _userRepository.FindById(user.Id);
             if (u == null)
                 throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
-            var r = _unitOfWork.RoleRepository.FindByName(roleName);
+            var r = _roleRepository.FindByName(roleName);
             if (r == null)
                 throw new ArgumentException("roleName does not correspond to a Role entity.", "roleName");
 
