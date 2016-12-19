@@ -147,7 +147,7 @@ namespace Mvc5IdentityExample.Web.Controllers
             }
             else
             {
-                // UserN does not have a password so remove any validation errors caused by a missing OldPassword field
+                // User does not have a password so remove any validation errors caused by a missing OldPassword field
                 ModelState state = ModelState["OldPassword"];
                 if (state != null)
                 {
@@ -194,7 +194,7 @@ namespace Mvc5IdentityExample.Web.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Sign in the user with this external login provider if the UserN already has a login
+            // Sign in the user with this external login provider if the User already has a login
             var user = await _userManager.FindAsync(loginInfo.Login);
             if (user != null)
             {
@@ -203,7 +203,7 @@ namespace Mvc5IdentityExample.Web.Controllers
             }
             else
             {
-                // If the user does not have an account, then prompt the UserN to create an account
+                // If the user does not have an account, then prompt the User to create an account
                 ViewBag.ReturnUrl = returnUrl;
                 ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });

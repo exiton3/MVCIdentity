@@ -11,7 +11,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework
         {
         }
 
-        internal IDbSet<UserN> Users { get; set; }
+        internal IDbSet<User> Users { get; set; }
         internal IDbSet<Role> Roles { get; set; }
         internal IDbSet<ExternalLogin> Logins { get; set; }
 

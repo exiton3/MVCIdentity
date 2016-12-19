@@ -6,7 +6,7 @@ namespace Mvc5IdentityExample.Domain.Entities
     public class Role
     {
         #region Fields
-        private ICollection<UserN> _users;
+        private ICollection<User> _users;
         #endregion
 
         #region Scalar Properties
@@ -15,9 +15,9 @@ namespace Mvc5IdentityExample.Domain.Entities
         #endregion
 
         #region Navigation Properties
-        public ICollection<UserN> Users
+        public ICollection<User> Users
         {
-            get { return _users ?? (_users = new List<UserN>()); }
+            get { return _users ?? (_users = new List<User>()); }
             set { _users = value; }
         }
         #endregion

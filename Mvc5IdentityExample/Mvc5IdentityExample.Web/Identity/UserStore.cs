@@ -67,7 +67,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             PopulateUser(u, user);
 
@@ -93,13 +93,13 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var c = new Entities.Claim
             {
                 ClaimType = claim.Type,
                 ClaimValue = claim.Value,
-                UserN = u
+                User = u
             };
             u.Claims.Add(c);
 
@@ -114,7 +114,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             return Task.FromResult<IList<Claim>>(u.Claims.Select(x => new Claim(x.ClaimType, x.ClaimValue)).ToList());
         }
@@ -128,7 +128,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var c = u.Claims.FirstOrDefault(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
             u.Claims.Remove(c);
@@ -148,13 +148,13 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var l = new Entities.ExternalLogin
             {
                 LoginProvider = login.LoginProvider,
                 ProviderKey = login.ProviderKey,
-                UserN = u
+                User = u
             };
             u.Logins.Add(l);
 
@@ -171,7 +171,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var l = _externalLoginRepository.GetByProviderAndKey(login.LoginProvider, login.ProviderKey);
             if (l != null)
-                identityUser = GetIdentityUser(l.UserN);
+                identityUser = GetIdentityUser(l.User);
 
             return Task.FromResult<IdentityUser>(identityUser);
         }
@@ -183,7 +183,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             return Task.FromResult<IList<UserLoginInfo>>(u.Logins.Select(x => new UserLoginInfo(x.LoginProvider, x.ProviderKey)).ToList());
         }
@@ -197,7 +197,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var l = u.Logins.FirstOrDefault(x => x.LoginProvider == login.LoginProvider && x.ProviderKey == login.ProviderKey);
             u.Logins.Remove(l);
@@ -217,7 +217,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
             var r = _roleRepository.FindByName(roleName);
             if (r == null)
                 throw new ArgumentException("roleName does not correspond to a Role entity.", "roleName");
@@ -235,7 +235,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             return Task.FromResult<IList<string>>(u.Roles.Select(x => x.Name).ToList());
         }
@@ -249,7 +249,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             return Task.FromResult<bool>(u.Roles.Any(x => x.Name == roleName));
         }
@@ -263,7 +263,7 @@ namespace Mvc5IdentityExample.Web.Identity
 
             var u = _userNRepository.FindById(user.Id);
             if (u == null)
-                throw new ArgumentException("IdentityUser does not correspond to a UserN entity.", "user");
+                throw new ArgumentException("IdentityUser does not correspond to a User entity.", "user");
 
             var r = u.Roles.FirstOrDefault(x => x.Name == roleName);
             u.Roles.Remove(r);
@@ -311,42 +311,42 @@ namespace Mvc5IdentityExample.Web.Identity
         #endregion
 
         #region Private Methods
-        private Entities.UserN GetUser(IdentityUser identityUser)
+        private Entities.User GetUser(IdentityUser identityUser)
         {
             if (identityUser == null)
                 return null;
 
-            var user = new Entities.UserN();
+            var user = new Entities.User();
             PopulateUser(user, identityUser);
 
             return user;
         }
 
-        private void PopulateUser(Entities.UserN userN, IdentityUser identityUser)
+        private void PopulateUser(Entities.User user, IdentityUser identityUser)
         {
-            userN.UserId = identityUser.Id;
-            userN.UserName = identityUser.UserName;
-            userN.PasswordHash = identityUser.PasswordHash;
-            userN.SecurityStamp = identityUser.SecurityStamp;
+            user.UserId = identityUser.Id;
+            user.UserName = identityUser.UserName;
+            user.PasswordHash = identityUser.PasswordHash;
+            user.SecurityStamp = identityUser.SecurityStamp;
         }
 
-        private IdentityUser GetIdentityUser(Entities.UserN userN)
+        private IdentityUser GetIdentityUser(Entities.User user)
         {
-            if (userN == null)
+            if (user == null)
                 return null;
 
             var identityUser = new IdentityUser();
-            PopulateIdentityUser(identityUser, userN);
+            PopulateIdentityUser(identityUser, user);
 
             return identityUser;
         }
 
-        private void PopulateIdentityUser(IdentityUser identityUser, Entities.UserN userN)
+        private void PopulateIdentityUser(IdentityUser identityUser, Entities.User user)
         {
-            identityUser.Id = userN.UserId;
-            identityUser.UserName = userN.UserName;
-            identityUser.PasswordHash = userN.PasswordHash;
-            identityUser.SecurityStamp = userN.SecurityStamp;
+            identityUser.Id = user.UserId;
+            identityUser.UserName = user.UserName;
+            identityUser.PasswordHash = user.PasswordHash;
+            identityUser.SecurityStamp = user.SecurityStamp;
         }
         #endregion
     }

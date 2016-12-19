@@ -4,7 +4,7 @@ namespace Mvc5IdentityExample.Domain.Entities
 {
     public class Claim
     {
-        private UserN _userN;
+        private User _user;
 
         #region Scalar Properties
         public virtual int ClaimId { get; set; }
@@ -14,14 +14,14 @@ namespace Mvc5IdentityExample.Domain.Entities
         #endregion
 
         #region Navigation Properties
-        public virtual UserN UserN
+        public virtual User User
         {
-            get { return _userN; }
+            get { return _user; }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
-                _userN = value;
+                _user = value;
                 UserId = value.UserId;
             }
         }

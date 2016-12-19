@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class UserNRepository : RepositoryAsync<UserN>, IUserNRepository
+    internal class UserNRepository : RepositoryAsync<User>, IUserNRepository
     {
         internal UserNRepository(UnitOfWork unitOfWork)
             : base(unitOfWork)
         {
         }
 
-        public UserN FindByUserName(string username)
+        public User FindByUserName(string username)
         {
             return Set.FirstOrDefault(x => x.UserName == username);
         }
 
-        public Task<UserN> FindByUserNameAsync(string username)
+        public Task<User> FindByUserNameAsync(string username)
         {
             return Set.FirstOrDefaultAsync(x => x.UserName == username);
         }
 
-        public Task<UserN> FindByUserNameAsync(System.Threading.CancellationToken cancellationToken, string username)
+        public Task<User> FindByUserNameAsync(System.Threading.CancellationToken cancellationToken, string username)
         {
             return Set.FirstOrDefaultAsync(x => x.UserName == username, cancellationToken);
         }
