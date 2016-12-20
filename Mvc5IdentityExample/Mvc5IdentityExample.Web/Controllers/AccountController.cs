@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Mvc5IdentityExample.Web.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
