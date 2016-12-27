@@ -10,6 +10,7 @@ namespace Mvc5IdentityExample.Web.Controllers
     {
         public ActionResult Index()
         {
+            
             return View();
         }
 

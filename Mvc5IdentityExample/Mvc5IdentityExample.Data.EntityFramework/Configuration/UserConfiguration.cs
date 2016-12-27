@@ -43,11 +43,11 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Configuration
                 });
 
             HasMany(x => x.Claims)
-                .WithRequired(x => x.UserN)
+                .WithRequired(x => x.User)
                 .HasForeignKey(x => x.UserId);
 
             HasMany(x => x.Logins)
-                .WithRequired(x => x.UserN)
+                .WithRequired(x => x.User)
                 .HasForeignKey(x => x.UserId);
         }
     }

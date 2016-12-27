@@ -1,14 +1,16 @@
-﻿using Mvc5IdentityExample.Domain.Entities;
+﻿using System.Collections.Generic;
+using Mvc5IdentityExample.Domain.Entities;
 using Mvc5IdentityExample.Domain.Repositories;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 
 namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
 {
-    internal class UserNRepository : RepositoryAsync<User>, IUserNRepository
+    internal class UserRepository : RepositoryAsync<User>, IUserNRepository
     {
-        internal UserNRepository(UnitOfWork unitOfWork)
+        internal UserRepository(UnitOfWork unitOfWork)
             : base(unitOfWork)
         {
         }
@@ -27,5 +29,18 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Repositories
         {
             return Set.FirstOrDefaultAsync(x => x.UserName == username, cancellationToken);
         }
+
+        public IEnumerable<UserDto> GetProjected()
+        {
+            Set.ProjectTo<UserDto>();
+            return new List<UserDto>();
+        }
+    }
+
+    internal class UserDto
+    {
+        public string Name { get; set; }
+
+        public string GroupName { get; set; }
     }
 }

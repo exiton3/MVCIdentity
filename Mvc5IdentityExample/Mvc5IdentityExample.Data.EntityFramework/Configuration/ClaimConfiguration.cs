@@ -34,7 +34,7 @@ namespace Mvc5IdentityExample.Data.EntityFramework.Configuration
                 .IsMaxLength()
                 .IsOptional();
 
-            HasRequired(x => x.UserN)
+            HasRequired(x => x.User)
                 .WithMany(x => x.Claims)
                 .HasForeignKey(x => x.UserId);
         }
