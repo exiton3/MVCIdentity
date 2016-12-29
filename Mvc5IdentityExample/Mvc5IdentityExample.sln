@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Tests", "Data.Tests\Data.Tests.csproj", "{46C3F2D6-C4F0-4267-A027-D6828E97704D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Useful", "Useful", "{B1CF586E-B9B6-47F4-B725-F64875BFDA90}"
+	ProjectSection(SolutionItems) = preProject
+		..\Usefull\CacheWithExpiration.cs = ..\Usefull\CacheWithExpiration.cs
+		..\Usefull\PermissionRequiredAttribute.cs = ..\Usefull\PermissionRequiredAttribute.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

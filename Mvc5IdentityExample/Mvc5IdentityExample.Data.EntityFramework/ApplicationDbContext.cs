@@ -17,10 +17,19 @@ namespace Mvc5IdentityExample.Data.EntityFramework
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+           // modelBuilder.Properties().Configure(x=>  x.HasColumnName(x.ClrPropertyInfo.Name.Underscore()));
+            modelBuilder.Properties<decimal>()
+           .Configure(config => config.HasPrecision(10, 2));
+            modelBuilder.Entity<User>().ToTable(GetTableName());
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new ExternalLoginConfiguration());
             modelBuilder.Configurations.Add(new ClaimConfiguration());
+        }
+
+        private string GetTableName()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
